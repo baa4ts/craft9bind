@@ -1,127 +1,199 @@
 import type { Configuracion } from "@/type/Configuracion.interface";
-import type { SoaHead } from "@/type/SoaHead.interface"
-import { persist } from "zustand/middleware"
-import { create } from "zustand"
+import type { SoaHead } from "@/type/SoaHead.interface";
+import { persist } from "zustand/middleware";
+import { create } from "zustand";
+import type { ZoneRecord } from "@/type/Zona.interface";
 
 interface BindStore {
-    configuracion: Configuracion,
-    zonas: Record<string, SoaHead>,
+	configuracion: Configuracion;
+	zonas: Record<string, SoaHead>;
+	registros: Record<string, ZoneRecord[]>;
 
-    agregar_zona: (zona: string) => boolean,
-    eliminar_zona: (zona: string) => boolean,
-    actualizar_zona: (nombre: string, soa: SoaHead) => boolean,
+	agregar_zona: (zona: string) => boolean;
+	eliminar_zona: (zona: string) => boolean;
+	actualizar_zona: (nombre: string, soa: SoaHead) => boolean;
 
-    actualizar_configuracion: (conf: Configuracion) => boolean,
+	actualizar_configuracion: (conf: Configuracion) => boolean;
+
+	agregar_registro: (zona: string, registro: ZoneRecord) => boolean;
+	eliminar_registro: (zona: string, index: number) => boolean;
+	actualizar_registro: (
+		zona: string,
+		index: number,
+		registro: ZoneRecord,
+	) => boolean;
 }
 
 export const useBindStore = create<BindStore, [["zustand/persist", BindStore]]>(
-    persist(
-        (set, get) => ({
+	persist(
+		(set, get) => ({
+			/**
+			 *
+			 * Configuracion por defecto que se carga
+			 *
+			 */
+			configuracion: {
+				hideVersion: "CraftBind DNS",
+				dnssecValidation: "auto",
+				escucha: {
+					ipv4: true,
+					ipv6: false,
+				},
+				recursionForwarders: "1.1.1.1",
+				allowQuery: "any;",
+				allowTransfer: "none;",
+				allowUpdate: "none;",
+				rpzZonas: [],
+			},
 
-            /**
-             * 
-             * Configuracion por defecto que se carga
-             * 
-             */
-            configuracion: {
-                hideVersion: "CraftBind DNS",
-                dnssecValidation: "auto",
-                escucha: {
-                    ipv4: true,
-                    ipv6: false,
-                },
-                recursionForwarders: "1.1.1.1",
-                allowQuery: "any;",
-                allowTransfer: "none;",
-                allowUpdate: "none;",
-            },
+			zonas: {},
 
-            zonas: {},
+			registros: {},
 
+			/**
+			 *
+			 * Configuracion: /etc/bind/<zona>
+			 *
+			 */
+			agregar_zona: (key) => {
+				const actuales = get().zonas;
 
-            /**
-             * 
-             * Configuracion: /etc/bind/<zona>
-             * 
-             */
-            agregar_zona: (key) => {
-                const actuales = get().zonas;
+				if (key in actuales) {
+					return false;
+				}
 
-                if (key in actuales) {
-                    return false;
-                }
+				set({
+					zonas: {
+						...actuales,
+						[key]: {
+							adminEmail: "admin.localhost",
+							authoritativeServer: "localhost",
+							expire: "86400",
+							nameServers: ["localhost"],
+							negativeTtl: "60",
+							origin: key,
+							refresh: "3600",
+							retry: "600",
+							serial: "1",
+							ttl: "60",
+						},
+					},
+				});
 
-                set({
-                    zonas: {
-                        ...actuales,
-                        [key]: {
-                            adminEmail: "admin.localhost",
-                            authoritativeServer: "localhost",
-                            expire: "86400",
-                            nameServers: ["localhost"],
-                            negativeTtl: "60",
-                            origin: key,
-                            refresh: "3600",
-                            retry: "600",
-                            serial: "1",
-                            ttl: "60",
-                        },
-                    },
-                });
+				return true;
+			},
 
-                return true
-            },
+			eliminar_zona: (key) => {
+				const actuales = get().zonas;
 
-            eliminar_zona: (key) => {
-                const actuales = get().zonas;
+				if (!(key in actuales)) {
+					return false;
+				}
 
-                if (!(key in actuales)) {
-                    return false;
-                }
+				const copiaZonas = { ...actuales };
+				delete copiaZonas[key];
 
-                const copiaZonas = { ...actuales };
-                delete copiaZonas[key];
+				set({
+					zonas: copiaZonas,
+				});
 
-                set({
-                    zonas: copiaZonas,
-                });
+				return true;
+			},
 
-                return true;
-            },
+			actualizar_zona: (nombre, soa) => {
+				const actuales = get().zonas;
 
-            actualizar_zona: (nombre, soa) => {
-                const actuales = get().zonas;
+				if (!(nombre in actuales)) {
+					return false;
+				}
 
-                if (!(nombre in actuales)) {
-                    return false;
-                }
+				set({
+					zonas: {
+						...actuales,
+						[nombre]: soa,
+					},
+				});
 
-                set({
-                    zonas: {
-                        ...actuales,
-                        [nombre]: soa
-                    }
-                });
+				return true;
+			},
 
-                return true;
-            },
+			/**
+			 *
+			 * Archivo: named.conf.options
+			 *
+			 */
+			actualizar_configuracion: (conf) => {
+				set({
+					configuracion: conf,
+				});
+				return true;
+			},
 
-            /**
-             * 
-             * Archivo: named.conf.options 
-             * 
-             */
-            actualizar_configuracion: (conf) => {
-                set({
-                    configuracion: conf
-                })
-                return true;
-            }
+			/**
+			 *
+			 * /zones/*
+			 *
+			 */
+			agregar_registro: (zona, registro) => {
+				const actuales = get().registros;
 
-        }),
-        {
-            name: "craftbind-storage",
-            version: 1
-        }
-    )
-)
+				if (!(zona in get().zonas)) {
+					return false;
+				}
+
+				set({
+					registros: {
+						...actuales,
+						[zona]: [...(actuales[zona] ?? []), registro],
+					},
+				});
+
+				return true;
+			},
+
+			eliminar_registro: (zona, index) => {
+				const actuales = get().registros;
+
+				if (!actuales[zona] || actuales[zona][index] === undefined) {
+					return false;
+				}
+
+				const copia = [...actuales[zona]];
+				copia.splice(index, 1);
+
+				set({
+					registros: {
+						...actuales,
+						[zona]: copia,
+					},
+				});
+
+				return true;
+			},
+
+			actualizar_registro: (zona, index, registro) => {
+				const actuales = get().registros;
+
+				if (!actuales[zona]?.[index]) {
+					return false;
+				}
+
+				const copia = [...actuales[zona]];
+				copia[index] = registro;
+
+				set({
+					registros: {
+						...actuales,
+						[zona]: copia,
+					},
+				});
+
+				return true;
+			},
+		}),
+		{
+			name: "craftbind-storage",
+			version: 1,
+		},
+	),
+);
