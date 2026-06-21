@@ -5,7 +5,7 @@ import {
 	type ZoneRecord,
 } from "@/type/Zona.interface";
 
-export function parsear_manual(raw: string, zona: string): ZoneRecord | null {
+export function parsear_manual(raw: string): ZoneRecord | null {
 	const partes = raw.trim().split(/\s+/);
 	if (partes.length < 4) return null;
 

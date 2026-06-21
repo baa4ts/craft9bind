@@ -2,7 +2,6 @@ import type { SoaHead } from "@/type/SoaHead.interface";
 import type { ZoneRecord } from "@/type/Zona.interface";
 
 export const generarZonaDb = (
-	nombre: string,
 	soa: SoaHead,
 	registros: ZoneRecord[],
 ): string => {
