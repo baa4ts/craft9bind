@@ -3,6 +3,7 @@ import type { SoaHead } from "@/type/SoaHead.interface";
 import { persist } from "zustand/middleware";
 import { create } from "zustand";
 import type { ZoneRecord } from "@/type/Zona.interface";
+import { validar_build } from "@/helpers/validarBuild";
 
 interface BindStore {
 	configuracion: Configuracion;
@@ -22,6 +23,7 @@ interface BindStore {
 		index: number,
 		registro: ZoneRecord,
 	) => boolean;
+	validar_build: () => boolean;
 }
 
 export const useBindStore = create<BindStore, [["zustand/persist", BindStore]]>(
@@ -189,6 +191,11 @@ export const useBindStore = create<BindStore, [["zustand/persist", BindStore]]>(
 				});
 
 				return true;
+			},
+
+			validar_build: () => {
+				const { zonas, registros, configuracion } = get();
+				return validar_build(zonas, registros, configuracion);
 			},
 		}),
 		{

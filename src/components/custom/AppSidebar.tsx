@@ -1,3 +1,4 @@
+// src/components/AppSidebar.tsx
 import {
 	Sidebar,
 	SidebarContent,
@@ -9,16 +10,24 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { usePuedeBuildear } from "@/hooks/store.hook";
 import { useBindStore } from "@/store/bind.store";
 import { Link } from "@tanstack/react-router";
 
-import { FileSliders, SquarePlus, Trash2, BookOpenText } from "lucide-react";
+import {
+	FileSliders,
+	SquarePlus,
+	Trash2,
+	BookOpenText,
+	Hammer,
+} from "lucide-react";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
 export function AppSidebar() {
 	const zonas = useBindStore((state) => state.zonas);
 	const eliminarZona = useBindStore((state) => state.eliminar_zona);
+	const puedeBuildear = usePuedeBuildear();
 
 	const eliminar = useCallback(
 		(nombre: string) => {
@@ -69,6 +78,26 @@ export function AppSidebar() {
 								</SidebarMenuButton>
 							</Link>
 						</SidebarMenuItem>
+
+						<SidebarMenuItem>
+							{puedeBuildear ? (
+								<Link to="/build">
+									<SidebarMenuButton className="text-violet-600 font-medium">
+										<Hammer />
+										<span>Generar build</span>
+									</SidebarMenuButton>
+								</Link>
+							) : (
+								<SidebarMenuButton
+									disabled
+									title="Completa al menos una zona con registros para poder generar el build"
+									className="opacity-50 cursor-not-allowed pointer-events-none"
+								>
+									<Hammer />
+									<span>Generar build</span>
+								</SidebarMenuButton>
+							)}
+						</SidebarMenuItem>
 					</SidebarMenu>
 				</SidebarGroup>
 
@@ -90,7 +119,6 @@ export function AppSidebar() {
 									</Link>
 
 									<div className="flex items-center justify-center gap-1 opacity-100 transition-opacity duration-150">
-										{/* Ir a reglas */}
 										<Link to="/registros/$zona" params={{ zona: nombreZona }}>
 											<button
 												className="p-1 rounded bg-sidebar-background text-violet-500 cursor-pointer"
@@ -100,7 +128,6 @@ export function AppSidebar() {
 											</button>
 										</Link>
 
-										{/* Eliminar */}
 										<button
 											onClick={() => {
 												eliminar(nombreZona);
