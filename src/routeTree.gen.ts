@@ -8,161 +8,161 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as ConfiguracionIndexRouteImport } from "./routes/configuracion/index";
-import { Route as BuildIndexRouteImport } from "./routes/build/index";
-import { Route as ZonasNuevaRouteImport } from "./routes/zonas/nueva";
-import { Route as ZonasZonaRouteImport } from "./routes/zonas/$zona";
-import { Route as RegistrosZonaRouteImport } from "./routes/registros/$zona";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfiguracionIndexRouteImport } from './routes/configuracion/index'
+import { Route as BuildIndexRouteImport } from './routes/build/index'
+import { Route as ZonasNuevaRouteImport } from './routes/zonas/nueva'
+import { Route as ZonasZonaRouteImport } from './routes/zonas/$zona'
+import { Route as RegistrosZonaRouteImport } from './routes/registros/$zona'
 
 const IndexRoute = IndexRouteImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfiguracionIndexRoute = ConfiguracionIndexRouteImport.update({
-	id: "/configuracion/",
-	path: "/configuracion/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/configuracion/',
+  path: '/configuracion/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BuildIndexRoute = BuildIndexRouteImport.update({
-	id: "/build/",
-	path: "/build/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/build/',
+  path: '/build/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ZonasNuevaRoute = ZonasNuevaRouteImport.update({
-	id: "/zonas/nueva",
-	path: "/zonas/nueva",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/zonas/nueva',
+  path: '/zonas/nueva',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ZonasZonaRoute = ZonasZonaRouteImport.update({
-	id: "/zonas/$zona",
-	path: "/zonas/$zona",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/zonas/$zona',
+  path: '/zonas/$zona',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegistrosZonaRoute = RegistrosZonaRouteImport.update({
-	id: "/registros/$zona",
-	path: "/registros/$zona",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/registros/$zona',
+  path: '/registros/$zona',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-	"/": typeof IndexRoute;
-	"/registros/$zona": typeof RegistrosZonaRoute;
-	"/zonas/$zona": typeof ZonasZonaRoute;
-	"/zonas/nueva": typeof ZonasNuevaRoute;
-	"/build/": typeof BuildIndexRoute;
-	"/configuracion/": typeof ConfiguracionIndexRoute;
+  '/': typeof IndexRoute
+  '/registros/$zona': typeof RegistrosZonaRoute
+  '/zonas/$zona': typeof ZonasZonaRoute
+  '/zonas/nueva': typeof ZonasNuevaRoute
+  '/build/': typeof BuildIndexRoute
+  '/configuracion/': typeof ConfiguracionIndexRoute
 }
 export interface FileRoutesByTo {
-	"/": typeof IndexRoute;
-	"/registros/$zona": typeof RegistrosZonaRoute;
-	"/zonas/$zona": typeof ZonasZonaRoute;
-	"/zonas/nueva": typeof ZonasNuevaRoute;
-	"/build": typeof BuildIndexRoute;
-	"/configuracion": typeof ConfiguracionIndexRoute;
+  '/': typeof IndexRoute
+  '/registros/$zona': typeof RegistrosZonaRoute
+  '/zonas/$zona': typeof ZonasZonaRoute
+  '/zonas/nueva': typeof ZonasNuevaRoute
+  '/build': typeof BuildIndexRoute
+  '/configuracion': typeof ConfiguracionIndexRoute
 }
 export interface FileRoutesById {
-	__root__: typeof rootRouteImport;
-	"/": typeof IndexRoute;
-	"/registros/$zona": typeof RegistrosZonaRoute;
-	"/zonas/$zona": typeof ZonasZonaRoute;
-	"/zonas/nueva": typeof ZonasNuevaRoute;
-	"/build/": typeof BuildIndexRoute;
-	"/configuracion/": typeof ConfiguracionIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/registros/$zona': typeof RegistrosZonaRoute
+  '/zonas/$zona': typeof ZonasZonaRoute
+  '/zonas/nueva': typeof ZonasNuevaRoute
+  '/build/': typeof BuildIndexRoute
+  '/configuracion/': typeof ConfiguracionIndexRoute
 }
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths:
-		| "/"
-		| "/registros/$zona"
-		| "/zonas/$zona"
-		| "/zonas/nueva"
-		| "/build/"
-		| "/configuracion/";
-	fileRoutesByTo: FileRoutesByTo;
-	to:
-		| "/"
-		| "/registros/$zona"
-		| "/zonas/$zona"
-		| "/zonas/nueva"
-		| "/build"
-		| "/configuracion";
-	id:
-		| "__root__"
-		| "/"
-		| "/registros/$zona"
-		| "/zonas/$zona"
-		| "/zonas/nueva"
-		| "/build/"
-		| "/configuracion/";
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/registros/$zona'
+    | '/zonas/$zona'
+    | '/zonas/nueva'
+    | '/build/'
+    | '/configuracion/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/registros/$zona'
+    | '/zonas/$zona'
+    | '/zonas/nueva'
+    | '/build'
+    | '/configuracion'
+  id:
+    | '__root__'
+    | '/'
+    | '/registros/$zona'
+    | '/zonas/$zona'
+    | '/zonas/nueva'
+    | '/build/'
+    | '/configuracion/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
-	RegistrosZonaRoute: typeof RegistrosZonaRoute;
-	ZonasZonaRoute: typeof ZonasZonaRoute;
-	ZonasNuevaRoute: typeof ZonasNuevaRoute;
-	BuildIndexRoute: typeof BuildIndexRoute;
-	ConfiguracionIndexRoute: typeof ConfiguracionIndexRoute;
+  IndexRoute: typeof IndexRoute
+  RegistrosZonaRoute: typeof RegistrosZonaRoute
+  ZonasZonaRoute: typeof ZonasZonaRoute
+  ZonasNuevaRoute: typeof ZonasNuevaRoute
+  BuildIndexRoute: typeof BuildIndexRoute
+  ConfiguracionIndexRoute: typeof ConfiguracionIndexRoute
 }
 
-declare module "@tanstack/react-router" {
-	interface FileRoutesByPath {
-		"/": {
-			id: "/";
-			path: "/";
-			fullPath: "/";
-			preLoaderRoute: typeof IndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/configuracion/": {
-			id: "/configuracion/";
-			path: "/configuracion";
-			fullPath: "/configuracion/";
-			preLoaderRoute: typeof ConfiguracionIndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/build/": {
-			id: "/build/";
-			path: "/build";
-			fullPath: "/build/";
-			preLoaderRoute: typeof BuildIndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/zonas/nueva": {
-			id: "/zonas/nueva";
-			path: "/zonas/nueva";
-			fullPath: "/zonas/nueva";
-			preLoaderRoute: typeof ZonasNuevaRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/zonas/$zona": {
-			id: "/zonas/$zona";
-			path: "/zonas/$zona";
-			fullPath: "/zonas/$zona";
-			preLoaderRoute: typeof ZonasZonaRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/registros/$zona": {
-			id: "/registros/$zona";
-			path: "/registros/$zona";
-			fullPath: "/registros/$zona";
-			preLoaderRoute: typeof RegistrosZonaRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-	}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracion/': {
+      id: '/configuracion/'
+      path: '/configuracion'
+      fullPath: '/configuracion/'
+      preLoaderRoute: typeof ConfiguracionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/build/': {
+      id: '/build/'
+      path: '/build'
+      fullPath: '/build/'
+      preLoaderRoute: typeof BuildIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zonas/nueva': {
+      id: '/zonas/nueva'
+      path: '/zonas/nueva'
+      fullPath: '/zonas/nueva'
+      preLoaderRoute: typeof ZonasNuevaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zonas/$zona': {
+      id: '/zonas/$zona'
+      path: '/zonas/$zona'
+      fullPath: '/zonas/$zona'
+      preLoaderRoute: typeof ZonasZonaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registros/$zona': {
+      id: '/registros/$zona'
+      path: '/registros/$zona'
+      fullPath: '/registros/$zona'
+      preLoaderRoute: typeof RegistrosZonaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
-	RegistrosZonaRoute: RegistrosZonaRoute,
-	ZonasZonaRoute: ZonasZonaRoute,
-	ZonasNuevaRoute: ZonasNuevaRoute,
-	BuildIndexRoute: BuildIndexRoute,
-	ConfiguracionIndexRoute: ConfiguracionIndexRoute,
-};
+  IndexRoute: IndexRoute,
+  RegistrosZonaRoute: RegistrosZonaRoute,
+  ZonasZonaRoute: ZonasZonaRoute,
+  ZonasNuevaRoute: ZonasNuevaRoute,
+  BuildIndexRoute: BuildIndexRoute,
+  ConfiguracionIndexRoute: ConfiguracionIndexRoute,
+}
 export const routeTree = rootRouteImport
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()

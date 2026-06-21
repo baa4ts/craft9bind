@@ -28,7 +28,7 @@ function RouteComponent() {
 		},
 		...Object.entries(zonas).map(([nombre, soa]) => ({
 			nombre: `zones/${nombre}`,
-			contenido: generarZonaDb(nombre, soa, registros[nombre] ?? []),
+			contenido: generarZonaDb(soa, registros[nombre] ?? [], nombre),
 		})),
 	];
 

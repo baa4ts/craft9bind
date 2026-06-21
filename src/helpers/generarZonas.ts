@@ -4,7 +4,7 @@ import type { ZoneRecord } from "@/type/Zona.interface";
 export const generarZonaDb = (
 	soa: SoaHead,
 	registros: ZoneRecord[],
-	nombre?: string,
+	_nombre: string,
 ): string => {
 	const records = registros
 		.map(
